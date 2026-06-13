@@ -1,148 +1,202 @@
 <script lang="ts">
-  import { locale, t } from '$lib/stores/i18n';
-  
-  interface OpenSourceProject {
-    name: string;
-    description: string;
-    technologies: string[];
-    icon: string;
-    githubUrl: string;
-    stars?: number;
-  }
-  
-  interface Service {
-    name: string;
-    description: string;
-    isOpenSource?: boolean;
-    githubUrl?: string;
-    link?: string;
-    tags?: string[];
-    dots?: string[];
-  }
+	interface Service {
+		name: string;
+		description: string;
+		isOpenSource?: boolean;
+		githubUrl?: string;
+		link?: string;
+		tags?: string[];
+		dots?: string[];
+		type?: string;
+		signal?: string;
+	}
 
-  const services: Service[] = [
-    {
-      name: 'Production Django Docker Example',
-      description: 'Готовый пример для быстрого старта Django проектов. Создан для ускорения разработки и уменьшения времени на запуск проекта.',
-      isOpenSource: true,
-      githubUrl: 'https://github.com/bubaley/production-django-docker-example',
-      tags: ['Python 3.13', 'Django + DRF', 'Celery', 'CI/CD', 'Dockerhub']
-    },
-    {
-      name: 'Air DRF Relation',
-      description: 'Библиотека для Django REST Framework для упрощения работы с Serializers.',
-      dots: [
-        'Автоматические select_related, prefetch_related при репрезентации объектов',
-        'Предзагрузка связанных объектов перед валидацией и сохранением',
-        'Возможность работать со связанным сериализатором как с PrimaryKeyRelatedField',
-      ],
+	const services: Service[] = [
+		{
+			name: 'FastAPI + Nuxt Production Template',
+			description:
+				'Production-шаблон для внутренних SaaS и кабинетов: FastAPI API, Nuxt-фронтенд, организации, авторизация, CRUD-паттерны и Docker-контур.',
+			isOpenSource: true,
+			githubUrl: 'https://github.com/bubaley/production-fastapi-docker-template',
+			tags: ['FastAPI', 'Nuxt 4', 'PostgreSQL', 'Redis', 'Docker', 'Tailwind CSS']
+		},
+		{
+			name: 'Production Django Docker Example',
+			description:
+				'Готовый пример для быстрого старта Django-проектов: структура, Docker, Celery, CI/CD и понятный production-контур.',
+			isOpenSource: true,
+			githubUrl: 'https://github.com/bubaley/production-django-docker-example',
+			tags: ['Python 3.13', 'Django + DRF', 'Celery', 'CI/CD', 'Dockerhub']
+		},
+		{
+			name: 'Air DRF Relation',
+			description:
+				'Библиотека для Django REST Framework, которая убирает рутину вокруг связей, запросов и сериализаторов.',
+			dots: [
+				'Автоматические select_related, prefetch_related при репрезентации объектов',
+				'Предзагрузка связанных объектов перед валидацией и сохранением',
+				'Возможность работать со связанным сериализатором как с PrimaryKeyRelatedField'
+			],
 
-      isOpenSource: true,
-      githubUrl: 'https://github.com/bubaley/air-drf-relation',
-      tags: ['Django + DRF', 'Python', 'Package', 'Optimization']
-    },
-    {
-      name: 'UV Versions Manager',
-      description: 'Возможность проверять и обновлять версии установленных пакетов в VS Code при работе с UV',
-      isOpenSource: true,
-      githubUrl: 'https://github.com/bubaley/uv-versions-manager',
-      tags: ['VS Code', 'Python', 'UV', 'Package']
-    },
-    {
-      name: 'Websocket Service',
-      description: 'Сервис для простого управления websocket каналами. Все настройки задаются в yaml файле. Включает в себя: авторизацию, подписку на каналы, отправку сообщений в каналы.',
-      tags: ['Go', 'Service']
-    },
-    {
-      name: 'Discount Service',
-      description: 'Сервис для расчета скидок на товары. Используется в нескольких больших проектах.',
-      dots: [
-        'Фиксированные цены, скидки на товары и категории',
-        'Индивидуальные схемы ценовой политики на компанию или группу',
-        'Наследование схемы ценовой политики с возможность переопределния',
-      ],
-      tags: ['Go', 'Service']
-    },
-    {
-      name: 'PUSH Service',
-      description: 'Сервис для массовой отправки PUSH уведомлений с контролем доставки.',
-      tags: ['Django', 'DRF', 'Celery']
-    },
-    {
-      name: 'Times Calculation Service',
-      description: 'Сервис для поиска оптимальных свободных временных слотов с учетом нагрузки и занятости оборудования, с целью предоставить клиенту реальное время выполнения работ.',
-      tags: ['Go', 'Service', 'Optimization', 'Hignload']
-    },
-  ];
+			isOpenSource: true,
+			githubUrl: 'https://github.com/bubaley/air-drf-relation',
+			tags: ['Django + DRF', 'Python', 'Package', 'Optimization']
+		},
+		{
+			name: 'Pushkin',
+			description:
+				'FastAPI-сервис для единой отправки уведомлений: Firebase, push, мессенджеры и почта из одного контура.',
+			type: 'Notifications',
+			signal: 'одна точка для всех каналов',
+			tags: ['FastAPI', 'Firebase', 'Push', 'Messengers', 'Email']
+		},
+		{
+			name: 'Websocket Service',
+			description:
+				'Сервис для управления websocket-каналами через YAML: авторизация, подписки и отправка сообщений.',
+			type: 'Realtime',
+			signal: 'каналы описываются конфигом',
+			tags: ['Go', 'Service', 'YAML']
+		},
+		{
+			name: 'Discount Service',
+			description:
+				'Сервис расчёта скидок и ценовых политик, который используется в нескольких больших проектах.',
+			dots: [
+				'Фиксированные цены, скидки на товары и категории',
+				'Индивидуальные схемы ценовой политики на компанию или группу',
+				'Наследование схемы ценовой политики с возможностью переопределения'
+			],
+			type: 'Pricing engine',
+			signal: 'сложные скидки без копипасты',
+			tags: ['Go', 'Service', 'Rules']
+		},
+		{
+			name: 'UV Versions Manager',
+			description:
+				'Расширение для VS Code, чтобы проверять и обновлять версии пакетов при работе с UV.',
+			isOpenSource: true,
+			githubUrl: 'https://github.com/bubaley/uv-versions-manager',
+			type: 'IDE tooling',
+			signal: 'быстрее контроль зависимостей',
+			tags: ['VS Code', 'Python', 'UV', 'Package']
+		},
+		{
+			name: 'Times Calculation Service',
+			description:
+				'Сервис поиска свободных временных слотов с учётом нагрузки, занятости оборудования и реального времени выполнения работ.',
+			type: 'Scheduling',
+			signal: 'слоты считаются с реальными ограничениями',
+			tags: ['Go', 'Service', 'Optimization', 'Highload']
+		}
+	];
+
+	const featuredServices = services.slice(0, 3);
+	const otherServices = services.slice(3);
+
+	const isWideServiceCard = (index: number) => index === 0;
 </script>
 
-<section class="py-20 bg-gradient-to-b from-gray-900 to-black">
-  <div class="container mx-auto px-6">
-    <div class="text-center mb-16">
-      <h2 class="text-4xl md:text-5xl font-bold mb-6">
-        <span class="bg-gradient-to-r from-green-400 to-blue-500 bg-clip-text text-transparent">
-          Services
-        </span>
-      </h2>
-      <p class="text-xl text-gray-400 max-w-3xl mx-auto">
-        Еще немного проектов и сервисов
-      </p>
-    </div>
-    
-    <div class="max-w-4xl mx-auto space-y-4">
-      {#each services as service}
-        <div class="bg-gray-800/30 backdrop-blur-sm border border-gray-700 rounded-xl p-6 card-glow hover:border-gray-600 transition-all duration-300">
-          <div class="flex items-start justify-between">
-            <div class="flex-1">
-              <div class="flex items-center space-x-3 mb-2">
-                <h3 class="text-lg font-bold text-white">
-                  {service.name}
-                </h3>
-                {#if service.isOpenSource}
-                  <span class="px-2 py-1 bg-gradient-to-r from-green-500/20 to-blue-500/20 border border-green-500/30 rounded text-xs text-green-300">
-                    Open Source
-                  </span>
-                {/if}
-              </div>
-              <p class="text-gray-400 leading-relaxed mb-3">
-                {service.description}
-              </p>
-              {#if service.dots}
-                <ul class="list-disc list-inside text-gray-400 mb-3">
-                  {#each service.dots as dot}
-                    <li>{dot}</li>
-                  {/each}
-                </ul>
-              {/if}
-              {#if service.tags}
-                <div class="flex flex-wrap gap-2">
-                  {#each service.tags as tag}
-                    <span class="px-2 py-1 bg-blue-500/20 border border-blue-500/30 rounded text-xs text-blue-300">
-                      {tag}
-                    </span>
-                  {/each}
-                </div>
-              {/if}
-            </div>
-            {#if service.githubUrl}
-              <a 
-                href={service.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="ml-4 text-gray-400 hover:text-white transition-colors duration-200"
-                aria-label="View on GitHub"
-              >
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                </svg>
-              </a>
-            {/if}
-          </div>
-        </div>
-      {/each}
-    </div>
-    <div class="flex justify-center mt-5 text-gray-600">
-      etc.
-    </div>
-  </div>
-</section> 
+<section class="bg-[#0d0d0f] py-24">
+	<div class="container mx-auto px-6">
+		<div class="mb-16 max-w-5xl">
+			<p class="mb-4 text-sm tracking-[0.28em] text-gray-500 uppercase">Сервисы и open source</p>
+			<h2 class="mb-6 text-4xl leading-none font-black tracking-[-0.04em] text-white md:text-6xl">
+				Когда вижу повторяющуюся боль — выношу её в инструмент.
+			</h2>
+			<p class="max-w-3xl text-xl leading-relaxed text-gray-400">
+				Часть решений становится внутренними сервисами, часть — open source. Для меня это нормальный
+				способ не чинить одну и ту же проблему десятый раз.
+			</p>
+		</div>
+
+		<div class="mb-6 grid gap-4 lg:grid-cols-3">
+			{#each featuredServices as service, index (service.name)}
+				<article class="warm-card rounded-[1.5rem] p-6">
+					<div class="mb-8 flex items-start justify-between gap-4">
+						<span class="rounded-full bg-[#f07a5b]/10 px-3 py-1 text-xs text-[#ffd0a7]">
+							Открытый код
+						</span>
+						<span class="text-4xl font-black tracking-[-0.08em] text-[#f07a5b]/20"
+							>0{index + 1}</span
+						>
+					</div>
+					<h3 class="mb-3 text-2xl font-black tracking-[-0.04em] text-white">{service.name}</h3>
+					<p class="mb-5 leading-relaxed text-gray-400">{service.description}</p>
+					<div class="flex flex-wrap gap-2">
+						{#each service.tags ?? [] as tag (tag)}
+							<span class="rounded-full bg-black/45 px-2.5 py-1 text-xs text-gray-300">{tag}</span>
+						{/each}
+					</div>
+					{#if service.githubUrl}
+						<a
+							href={service.githubUrl}
+							target="_blank"
+							rel="noopener noreferrer"
+							class="mt-6 inline-flex text-sm font-semibold text-[#ffd0a7] hover:text-white"
+						>
+							Посмотреть на GitHub →
+						</a>
+					{/if}
+				</article>
+			{/each}
+		</div>
+
+		<div class="grid gap-3 md:grid-cols-2">
+			{#each otherServices as service, index (service.name)}
+				<article
+					class="group rounded-[1.5rem] border border-white/10 bg-white/[0.03] p-5 hover:border-[#f07a5b]/25 {isWideServiceCard(
+						index
+					)
+						? 'md:col-span-2'
+						: ''}"
+				>
+					<div class="mb-5 flex flex-wrap items-start justify-between gap-3">
+						<div>
+							{#if service.type}
+								<p class="mb-2 text-xs tracking-[0.18em] text-[#f07a5b] uppercase">{service.type}</p>
+							{/if}
+							<h3 class="text-xl font-black tracking-[-0.03em] text-white group-hover:text-[#ffd0a7]">
+								{service.name}
+							</h3>
+						</div>
+						{#if service.githubUrl}
+							<a
+								href={service.githubUrl}
+								target="_blank"
+								rel="noopener noreferrer"
+								class="rounded-full border border-white/10 px-3 py-1 text-sm font-semibold text-gray-500 hover:border-[#f07a5b]/30 hover:text-[#ffd0a7]"
+							>
+								GitHub →
+							</a>
+						{:else}
+							<span class="text-4xl font-black tracking-[-0.08em] text-[#f07a5b]/15"
+								>0{index + 4}</span
+							>
+						{/if}
+					</div>
+					<p class="mb-4 text-sm leading-relaxed text-gray-400">{service.description}</p>
+					{#if service.signal}
+						<div
+							class="mb-4 rounded-2xl border border-[#f07a5b]/15 bg-[#f07a5b]/[0.07] px-4 py-3 text-sm font-medium text-[#ffd0a7]"
+						>
+							{service.signal}
+						</div>
+					{/if}
+					{#if service.dots}
+						<ul class="mb-4 space-y-1 text-sm text-gray-500">
+							{#each service.dots as dot (dot)}
+								<li>— {dot}</li>
+							{/each}
+						</ul>
+					{/if}
+					<div class="flex flex-wrap gap-2">
+						{#each service.tags ?? [] as tag (tag)}
+							<span class="rounded-full bg-black/45 px-2.5 py-1 text-xs text-gray-300">{tag}</span>
+						{/each}
+					</div>
+				</article>
+			{/each}
+		</div>
+	</div>
+</section>
